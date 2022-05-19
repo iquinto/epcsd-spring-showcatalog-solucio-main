@@ -17,17 +17,37 @@ class ShowUnitTest {
 
     @Test
     public void createAndCancelShowTest() {
-        Category category = new Category(1L, "music", "Music Category");
 
+        //given
+        Category category = new Category(1L, "music", "Music Category");
         Performance performance = new Performance(LocalDate.of(2022,6,16), LocalTime.of(2,30), "www.youtube.com", 56L, Status.CREATED);
 
+        //when
         Set<Performance> performances = new HashSet<>();
         performances.add(performance);
-        Show show = new Show(1L,  "U2 Concert", "Some description", "u2.png",  45.00, 2.00, 5000L, LocalDate.of(2022,6,16), category, performances);
+        Show show = new Show();
+        show.setId(1L);
+        show.setCategory(category);
+        show.setName("U2 Tour");
+        show.setDescription("This is U2");
+        show.setImage("u2.jpeg");
+        show.setPrice(150.0);
+        show.setDuration(190.0);
+        show.setOnSaleDate(LocalDate.of(2022,6,16));
+        show.setPerformances(performances);
 
+        //then
         assertThat(show).isNotNull();
         assertThat(show.getCategory()).isEqualTo(category);
         assertThat(show.getStatus()).isEqualTo(Status.CREATED);
+
+        //when
+        show.cancel();
+
+        //then:
+        assertThat(show.getStatus()).isEqualTo(Status.CANCELLED);
+        assertThat(performance.getStatus()).isEqualTo(Status.CANCELLED);
+
 
     }
 
