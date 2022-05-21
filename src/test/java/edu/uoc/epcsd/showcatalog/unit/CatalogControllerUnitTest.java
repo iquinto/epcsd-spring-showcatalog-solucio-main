@@ -1,36 +1,58 @@
 package edu.uoc.epcsd.showcatalog.unit;
 
+import edu.uoc.epcsd.showcatalog.application.rest.CatalogRESTController;
 import edu.uoc.epcsd.showcatalog.domain.Category;
 import edu.uoc.epcsd.showcatalog.domain.Performance;
 import edu.uoc.epcsd.showcatalog.domain.Show;
 import edu.uoc.epcsd.showcatalog.domain.Status;
-import edu.uoc.epcsd.showcatalog.domain.repository.CategoryRepository;
-import edu.uoc.epcsd.showcatalog.domain.repository.ShowRepository;
 import edu.uoc.epcsd.showcatalog.domain.service.CatalogServiceImpl;
+import edu.uoc.epcsd.showcatalog.infrastructure.repository.jpa.SpringDataCategoryRepository;
+import edu.uoc.epcsd.showcatalog.infrastructure.repository.jpa.SpringDataShowRepository;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
-class CatalogServiceUnitTest {
 
-    @Mock
-    private ShowRepository showRepository;
+@WebMvcTest(CatalogRESTController.class)
+class CatalogControllerUnitTest {
 
-    @InjectMocks
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    SpringDataCategoryRepository springDataCategoryRepository;
+
+    @MockBean
+    SpringDataShowRepository springDataShowRepository;
+
+    @MockBean
     private CatalogServiceImpl catalogService;
 
     private Show show;
@@ -58,33 +80,24 @@ class CatalogServiceUnitTest {
         show.setPerformances(performances);
     }
 
-    @DisplayName("Invoke findShowById correctly")
+    @DisplayName("find all categories")
     @Test
-    public void findShowByIdCorrectly() {
-        // given
-        Mockito.when(showRepository.findShowById(show.getId())).thenReturn(Optional.ofNullable(show));
+    public void findCategories() throws Exception {
+
+        //given:
+        Mockito.when(catalogService.findAllCategories()).thenReturn(List.of(category));
 
         // when
-        Optional<Show> showInstance = catalogService.findShowById(show.getId());
+        ResultActions response = mockMvc.perform(get("/categories"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
 
         // then
-        assertThat(showInstance).isNotNull();
-        assertThat(showInstance.get()).isExactlyInstanceOf(Show.class);
-        assertThat(showInstance.get().getId()).isEqualTo(show.getId());
-        assertThat(showInstance.get().getStatus()).isEqualTo(Status.CREATED);
-    }
-
-    @DisplayName("Invoke findShowById incorrectly")
-    @Test
-    public void findShowByIdIncorrectly() {
-        // given
-        Mockito.when(showRepository.findShowById(0L)).thenReturn(null);
-
-        // when
-        Optional<Show> showInstance = catalogService.findShowById(0L);
-
-        // then
-        assertThat(showInstance).isNull();
+        response.andExpect(status().isOk());
+        response.andExpect(handler().handlerType(CatalogRESTController.class));
+        response.andExpect(handler().methodName("findCategories"));
+        response.andExpect(jsonPath("$", hasSize(1)));
+        response.andExpect(jsonPath("$[0].name", Matchers.is(category.getName())));
     }
 
 }
