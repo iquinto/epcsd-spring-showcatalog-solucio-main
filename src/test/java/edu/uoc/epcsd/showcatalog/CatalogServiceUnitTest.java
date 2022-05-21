@@ -1,4 +1,4 @@
-package edu.uoc.epcsd.showcatalog.unit;
+package edu.uoc.epcsd.showcatalog;
 
 import edu.uoc.epcsd.showcatalog.domain.Category;
 import edu.uoc.epcsd.showcatalog.domain.Performance;
@@ -60,7 +60,7 @@ class CatalogServiceUnitTest {
 
     @DisplayName("Invoke findShowById correctly")
     @Test
-    public void testFindShowByIdCorrectly() {
+    public void test_find_show_by_id_correctly() {
         // given
         Mockito.when(showRepository.findShowById(show.getId())).thenReturn(Optional.ofNullable(show));
 
@@ -76,7 +76,7 @@ class CatalogServiceUnitTest {
 
     @DisplayName("Invoke findShowById incorrectly")
     @Test
-    public void testFindShowByIdIncorrectly() {
+    public void test_find_show_by_id_incorrectly() {
         // given
         Mockito.when(showRepository.findShowById(0L)).thenReturn(null);
 

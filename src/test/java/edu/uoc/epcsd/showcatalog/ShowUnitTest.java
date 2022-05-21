@@ -1,4 +1,4 @@
-package edu.uoc.epcsd.showcatalog.unit;
+package edu.uoc.epcsd.showcatalog;
 
 import edu.uoc.epcsd.showcatalog.domain.Category;
 import edu.uoc.epcsd.showcatalog.domain.Performance;
@@ -16,7 +16,7 @@ import java.util.Set;
 class ShowUnitTest {
 
     @Test
-    public void testCreateAndCancelShowTest() {
+    public void test_create_and_cancel_show() {
 
         //given
         Category category = new Category(1L, "music", "Music Category");

@@ -1,4 +1,4 @@
-package edu.uoc.epcsd.showcatalog.integration;
+package edu.uoc.epcsd.showcatalog;
 
 import edu.uoc.epcsd.showcatalog.domain.Category;
 import edu.uoc.epcsd.showcatalog.domain.repository.CategoryRepository;
@@ -21,7 +21,7 @@ class CatalogRepositoryIntegrationTest {
 
     @DisplayName("test find all categories with WebMvcTest")
     @Test
-    void testFindCategoryById() {
+    void test_find_category_by_id() {
         // given
         Category c =  new Category();
         c.setName("new category");

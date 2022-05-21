@@ -1,4 +1,4 @@
-package edu.uoc.epcsd.showcatalog.unit;
+package edu.uoc.epcsd.showcatalog;
 
 import edu.uoc.epcsd.showcatalog.application.rest.CatalogRESTController;
 import edu.uoc.epcsd.showcatalog.domain.Category;
@@ -82,7 +82,7 @@ class CatalogControllerUnitTest {
 
     @DisplayName("test find all categories with WebMvcTest")
     @Test
-    public void testFindCategories() throws Exception {
+    public void test_find_categories() throws Exception {
 
         //given:
         Mockito.when(catalogService.findAllCategories()).thenReturn(List.of(category));
