@@ -4,28 +4,49 @@ import edu.uoc.epcsd.showcatalog.domain.Category;
 import edu.uoc.epcsd.showcatalog.domain.Performance;
 import edu.uoc.epcsd.showcatalog.domain.Show;
 import edu.uoc.epcsd.showcatalog.domain.Status;
+import edu.uoc.epcsd.showcatalog.domain.repository.CategoryRepository;
+import edu.uoc.epcsd.showcatalog.domain.repository.ShowRepository;
+import edu.uoc.epcsd.showcatalog.domain.service.CatalogServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(MockitoExtension.class)
 class CatalogServiceUnitTest {
 
-    @Test
-    public void createAndCancelShowTest() {
+    @Mock
+    private ShowRepository showRepository;
 
-        //given
-        Category category = new Category(1L, "music", "Music Category");
-        Performance performance = new Performance(LocalDate.of(2022,6,16), LocalTime.of(2,30), "www.youtube.com", 56L, Status.CREATED);
+    @InjectMocks
+    private CatalogServiceImpl catalogService;
 
-        //when
-        Set<Performance> performances = new HashSet<>();
-        performances.add(performance);
-        Show show = new Show();
+    private Show show;
+
+    private Category category;
+
+    private Set<Performance> performances;
+
+    @BeforeEach
+    public void setup(){
+        category = new Category(1L, "music", "Music Category");
+        performances = new HashSet<>();
+        performances.add(new Performance(LocalDate.of(2022,6,16),
+                LocalTime.of(2,30), "www.youtube.com",
+                56L, Status.CREATED));
+        show = new Show();
         show.setId(1L);
         show.setCategory(category);
         show.setName("U2 Tour");
@@ -35,20 +56,35 @@ class CatalogServiceUnitTest {
         show.setDuration(190.0);
         show.setOnSaleDate(LocalDate.of(2022,6,16));
         show.setPerformances(performances);
+    }
 
-        //then
-        assertThat(show).isNotNull();
-        assertThat(show.getCategory()).isEqualTo(category);
-        assertThat(show.getStatus()).isEqualTo(Status.CREATED);
+    @DisplayName("Invoke findShowById correctly")
+    @Test
+    public void findShowByIdCorrectly() {
+        // given
+        Mockito.when(showRepository.findShowById(show.getId())).thenReturn(Optional.ofNullable(show));
 
-        //when
-        show.cancel();
+        // when
+        Optional<Show> showInstance = catalogService.findShowById(show.getId());
 
-        //then:
-        assertThat(show.getStatus()).isEqualTo(Status.CANCELLED);
-        assertThat(performance.getStatus()).isEqualTo(Status.CANCELLED);
+        // then
+        assertThat(showInstance).isNotNull();
+        assertThat(showInstance.get()).isExactlyInstanceOf(Show.class);
+        assertThat(showInstance.get().getId()).isEqualTo(show.getId());
+        assertThat(showInstance.get().getStatus()).isEqualTo(Status.CREATED);
+    }
 
+    @DisplayName("Invoke findShowById incorrectly")
+    @Test
+    public void findShowByIdIncorrectly() {
+        // given
+        Mockito.when(showRepository.findShowById(0L)).thenReturn(null);
 
+        // when
+        Optional<Show> showInstance = catalogService.findShowById(0L);
+
+        // then
+        assertThat(showInstance).isNull();
     }
 
 }
