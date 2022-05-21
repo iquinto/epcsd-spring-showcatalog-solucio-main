@@ -80,9 +80,9 @@ class CatalogControllerUnitTest {
         show.setPerformances(performances);
     }
 
-    @DisplayName("find all categories")
+    @DisplayName("test find all categories with WebMvcTest")
     @Test
-    public void findCategories() throws Exception {
+    public void testFindCategories() throws Exception {
 
         //given:
         Mockito.when(catalogService.findAllCategories()).thenReturn(List.of(category));

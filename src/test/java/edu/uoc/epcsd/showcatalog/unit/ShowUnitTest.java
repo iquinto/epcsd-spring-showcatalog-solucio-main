@@ -16,7 +16,7 @@ import java.util.Set;
 class ShowUnitTest {
 
     @Test
-    public void createAndCancelShowTest() {
+    public void testCreateAndCancelShowTest() {
 
         //given
         Category category = new Category(1L, "music", "Music Category");

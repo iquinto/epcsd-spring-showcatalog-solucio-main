@@ -60,7 +60,7 @@ class CatalogServiceUnitTest {
 
     @DisplayName("Invoke findShowById correctly")
     @Test
-    public void findShowByIdCorrectly() {
+    public void testFindShowByIdCorrectly() {
         // given
         Mockito.when(showRepository.findShowById(show.getId())).thenReturn(Optional.ofNullable(show));
 
@@ -76,7 +76,7 @@ class CatalogServiceUnitTest {
 
     @DisplayName("Invoke findShowById incorrectly")
     @Test
-    public void findShowByIdIncorrectly() {
+    public void testFindShowByIdIncorrectly() {
         // given
         Mockito.when(showRepository.findShowById(0L)).thenReturn(null);
 
