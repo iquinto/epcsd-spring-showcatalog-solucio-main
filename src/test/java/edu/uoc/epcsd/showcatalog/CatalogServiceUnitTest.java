@@ -35,9 +35,10 @@ class CatalogServiceUnitTest {
 
     private Show show;
 
+    private Set<Performance> performances;
+
     private Category category;
 
-    private Set<Performance> performances;
 
     @BeforeEach
     public void setup(){

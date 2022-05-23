@@ -3,20 +3,15 @@ package edu.uoc.epcsd.showcatalog;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.core.importer.ImportOption;
-import com.tngtech.archunit.junit.AnalyzeClasses;
-import com.tngtech.archunit.junit.ArchTest;
-import com.tngtech.archunit.lang.ArchRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Service;
-
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.library.Architectures.onionArchitecture;
 
 public class HexagonalArchTest {
 
-    private static final JavaClasses CLASSES =
-            new ClassFileImporter()
+    private static final JavaClasses CLASSES = new ClassFileImporter()
                     .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
                     .importPackages("edu.uoc.epcsd.showcatalog");
 
@@ -24,22 +19,12 @@ public class HexagonalArchTest {
     @Test
     public void test_onion_architecture_is_respected (){
         onionArchitecture()
-                .domainModels("edu.uoc.epcsd.showcatalog.domain..")
-                .domainServices("edu.uoc.epcsd.showcatalog.domain.service..")
+                .domainModels("..domain..")
+                .domainServices("..domain.service..")
                 .applicationServices("..application..")
-                .adapter("infra", "edu.uoc.epcsd.showcatalog.infrastructure..")
-                .adapter("rest", "edu.uoc.epcsd.showcatalog.application.rest..")
-                .check(CLASSES);
-        
-        onionArchitecture()
-                .domainModels("edu.uoc.epcsd.showcatalog.domain.model..")
-                .domainServices("edu.uoc.epcsd.showcatalog.domain.service..")
-                .applicationServices("edu.uoc.epcsd.showcatalog.application..")
-                .adapter("infra", "edu.uoc.epcsd.showcatalog.infrastructure..")
-
-                //.adapter("cli", "com.myapp.adapter.cli..")
-                .adapter("persistence", "com.myapp.adapter.persistence..")
-                .adapter("rest", "edu.uoc.epcsd.showcatalog.adapter.rest..")
+                .adapter("rest", "..application.rest..")
+                .adapter("infra", "..infrastructure..")
+                .adapter("persistence", "..infrastructure.repository.jpa..")
                 .check(CLASSES);;
     }
 
