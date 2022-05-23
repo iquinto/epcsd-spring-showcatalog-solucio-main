@@ -4,6 +4,7 @@ import edu.uoc.epcsd.showcatalog.domain.Category;
 import edu.uoc.epcsd.showcatalog.domain.Performance;
 import edu.uoc.epcsd.showcatalog.domain.Show;
 import edu.uoc.epcsd.showcatalog.domain.Status;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,6 +16,7 @@ import java.util.Set;
 
 class ShowUnitTest {
 
+    @DisplayName("test [unit] create and cancel show")
     @Test
     public void test_create_and_cancel_show() {
 
@@ -47,8 +49,7 @@ class ShowUnitTest {
         //then:
         assertThat(show.getStatus()).isEqualTo(Status.CANCELLED);
         assertThat(performance.getStatus()).isEqualTo(Status.CANCELLED);
-
-
+        
     }
 
 }

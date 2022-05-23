@@ -19,7 +19,7 @@ class CatalogRepositoryIntegrationTest {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @DisplayName("test find all categories with WebMvcTest")
+    @DisplayName("test [integration] findCategoryById method")
     @Test
     void test_find_category_by_id() {
         // given

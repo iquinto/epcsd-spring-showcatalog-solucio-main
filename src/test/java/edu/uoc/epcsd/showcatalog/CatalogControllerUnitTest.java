@@ -80,7 +80,7 @@ class CatalogControllerUnitTest {
         show.setPerformances(performances);
     }
 
-    @DisplayName("test find all categories with WebMvcTest")
+    @DisplayName("test [unit]  /categories endpoint with WebMvcTest")
     @Test
     public void test_find_categories() throws Exception {
 

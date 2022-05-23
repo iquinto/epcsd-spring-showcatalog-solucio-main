@@ -58,7 +58,7 @@ class CatalogServiceUnitTest {
         show.setPerformances(performances);
     }
 
-    @DisplayName("Invoke findShowById correctly")
+    @DisplayName("test [unit] findShowById method correctly")
     @Test
     public void test_find_show_by_id_correctly() {
         // given
@@ -74,7 +74,7 @@ class CatalogServiceUnitTest {
         assertThat(showInstance.get().getStatus()).isEqualTo(Status.CREATED);
     }
 
-    @DisplayName("Invoke findShowById incorrectly")
+    @DisplayName("test [unit] findShowById method incorrectly")
     @Test
     public void test_find_show_by_id_incorrectly() {
         // given
