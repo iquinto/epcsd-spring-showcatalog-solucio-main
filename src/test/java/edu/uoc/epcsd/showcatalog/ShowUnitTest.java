@@ -49,7 +49,7 @@ class ShowUnitTest {
         //then:
         assertThat(show.getStatus()).isEqualTo(Status.CANCELLED);
         assertThat(performance.getStatus()).isEqualTo(Status.CANCELLED);
-        
+
     }
 
 }
