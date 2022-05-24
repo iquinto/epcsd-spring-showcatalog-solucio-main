@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.library.Architectures.onionArchitecture;
 
-public class HexagonalArchTest {
+public class CatalogArchUnitTest {
 
     private static final JavaClasses CLASSES = new ClassFileImporter()
                     .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
@@ -25,7 +25,7 @@ public class HexagonalArchTest {
                 .adapter("rest", "..application.rest..")
                 .adapter("infra", "..infrastructure..")
                 .adapter("persistence", "..infrastructure.repository.jpa..")
-                .check(CLASSES);;
+                .check(CLASSES);
     }
 
     @DisplayName("test [arch unit] if naming of  service annotation is respected")

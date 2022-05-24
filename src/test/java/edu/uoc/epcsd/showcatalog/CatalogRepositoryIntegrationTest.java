@@ -35,7 +35,6 @@ class CatalogRepositoryIntegrationTest {
         assertThat(category).isNotNull();
         assertThat(category.get()).isExactlyInstanceOf(Category.class);
         assertThat(category.get().getId()).isEqualTo(newCategoryId);
-
         assertThat(category.get().getName()).isEqualTo(c.getName());
 
     }
