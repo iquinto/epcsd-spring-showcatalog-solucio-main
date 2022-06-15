@@ -10,6 +10,7 @@ import edu.uoc.epcsd.showcatalog.domain.service.CatalogServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -35,28 +36,12 @@ class CatalogServiceUnitTest {
 
     private Show show;
 
-    private Set<Performance> performances;
-
     private Category category;
-
 
     @BeforeEach
     public void setup(){
-        category = new Category(1L, "music", "Music Category");
-        performances = new HashSet<>();
-        performances.add(new Performance(LocalDate.of(2022,6,16),
-                LocalTime.of(2,30), "www.youtube.com",
-                56L, Status.CREATED));
-        show = new Show();
-        show.setId(1L);
-        show.setCategory(category);
-        show.setName("U2 Tour");
-        show.setDescription("This is U2");
-        show.setImage("u2.jpeg");
-        show.setPrice(150.0);
-        show.setDuration(190.0);
-        show.setOnSaleDate(LocalDate.of(2022,6,16));
-        show.setPerformances(performances);
+        category = Category.builder().name("MUSIC_SHOWS").build();;
+        show = Show.builder().name("Kiss - The final tour").category(category).capacity(45000L).build();
     }
 
     @DisplayName("test [unit] findShowById method correctly")
