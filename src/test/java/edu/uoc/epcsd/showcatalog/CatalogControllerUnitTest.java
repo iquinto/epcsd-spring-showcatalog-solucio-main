@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -41,6 +42,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(CatalogRESTController.class)
 class CatalogControllerUnitTest {
 
@@ -64,21 +66,8 @@ class CatalogControllerUnitTest {
 
     @BeforeEach
     public void setup(){
-        category = new Category(1L, "music", "Music Category");
-        performances = new HashSet<>();
-        performances.add(new Performance(LocalDate.of(2022,6,16),
-                LocalTime.of(2,30), "www.youtube.com",
-                56L, Status.CREATED));
-        show = new Show();
-        show.setId(1L);
-        show.setCategory(category);
-        show.setName("U2 Tour");
-        show.setDescription("This is U2");
-        show.setImage("u2.jpeg");
-        show.setPrice(150.0);
-        show.setDuration(190.0);
-        show.setOnSaleDate(LocalDate.of(2022,6,16));
-        show.setPerformances(performances);
+        category = Category.builder().name("MUSIC_SHOWS").build();;
+        show = Show.builder().name("Kiss - The final tour").category(category).capacity(45000L).build();
     }
 
     @DisplayName("test [unit]  /categories endpoint with WebMvcTest")
